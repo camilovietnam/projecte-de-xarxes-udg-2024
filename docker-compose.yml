@@ -4,14 +4,7 @@
 #    image: grafana/grafana:latest
 #    ports:
 #      - "3000:3000"
-#  openfaas:
-#    image: openfaas/faas-netes:0.12.1
-#    ports:
-#      - "8080:8080"
-#  kong:
-#    image: Kong:latest
-#    ports:
-#      - "8080:80"
+
 
 version: '3.9'
 
@@ -39,7 +32,16 @@ networks:
     external: false
 
 services:
+  # # # # # # # # # # # # # #
+  projecte-xarxes:
+  # # # # # # # # # # # # # #
+    image: u1062049/projecte-de-xarxes:latest
+    ports:
+      - "8080:8080"
+
+  # # # # # # # # # # # # # #
   kong-migrations:
+  # # # # # # # # # # # # # #
     image: "${KONG_DOCKER_TAG:-kong:latest}"
     command: kong migrations bootstrap
     profiles: [ "database" ]
@@ -53,7 +55,9 @@ services:
       - kong-net
     restart: on-failure
 
+  # # # # # # # # # # # # # #
   kong-migrations-up:
+  # # # # # # # # # # # # # #
     image: "${KONG_DOCKER_TAG:-kong:latest}"
     command: kong migrations up && kong migrations finish
     profiles: [ "database" ]
@@ -67,7 +71,9 @@ services:
       - kong-net
     restart: on-failure
 
+  # # # # # # # # # # # # # #
   kong:
+  # # # # # # # # # # # # # #
     image: "${KONG_DOCKER_TAG:-kong:latest}"
     user: "${KONG_USER:-kong}"
     environment:
@@ -112,7 +118,9 @@ services:
     security_opt:
       - no-new-privileges
 
+  # # # # # # # # # # # # # #
   db:
+  # # # # # # # # # # # # # #
     image: postgres:9.5
     profiles: [ "database" ]
     environment:
