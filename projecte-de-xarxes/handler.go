@@ -4,10 +4,14 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 func Handle(w http.ResponseWriter, r *http.Request) {
-	var input []byte
+	var (
+		input      []byte
+		serverName = os.Getenv("SERVER_NAME")
+	)
 
 	if r.Body != nil {
 		defer r.Body.Close()
@@ -18,5 +22,5 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf("Body: %s", string(input))))
+	w.Write([]byte(fmt.Sprintf("[%s] %s", serverName, string(input))))
 }

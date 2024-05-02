@@ -36,6 +36,8 @@ services:
   projecte-xarxes:
   # # # # # # # # # # # # # #
     image: u1062049/projecte-de-xarxes:latest
+    environment:
+      - SERVER_NAME=server-1
     ports:
       - "8080:8080"
 
