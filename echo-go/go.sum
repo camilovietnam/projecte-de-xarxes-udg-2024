@@ -1,2 +1,2 @@
-github.com/openfaas/templates-sdk/go-http v0.0.0-20220408082716-5981c545cb03 h1:wMIW4ddCuogcuXcFO77BPSMI33s3QTXqLTOHY6mLqFw=
-github.com/openfaas/templates-sdk/go-http v0.0.0-20220408082716-5981c545cb03/go.mod h1:2vlqdjIdqUjZphguuCAjoMz6QRPm2O8UT0TaAjd39S8=
+github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
+github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=

@@ -1,0 +1,19 @@
+_format_version: "1.1"
+
+upstreams:
+  - name: echo-go-upstream
+    targets:
+      - target: echo-go1:8080
+      - target: echo-go2:8080
+      - target: echo-go3:8080
+
+services:
+  - name: echo-go-service
+    url: http://echo-go-upstream
+
+routes:
+  - name: route-echo-go
+    paths:
+      - /echo-go
+    service: echo-go-service
+    strip_path: true
