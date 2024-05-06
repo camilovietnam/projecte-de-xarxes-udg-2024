@@ -34,7 +34,7 @@ services:
   # # # # # # # # # # # # # #
   echo:
   # # # # # # # # # # # # # #
-    image: u1062049/projecte-de-xarxes:latest
+    image: u1062049/echo-go:latest
     environment:
       - SERVER_NAME=SERVER-{{.Task.Name}}
     ports:

@@ -1,11 +1,16 @@
 package function
 
 import (
-	"fmt"
+	"encoding/json"
 	"io"
 	"net/http"
 	"os"
 )
+
+type httpResponse struct {
+	Server string
+	Body   string
+}
 
 func Handle(w http.ResponseWriter, r *http.Request) {
 	var (
@@ -15,12 +20,15 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 	if r.Body != nil {
 		defer r.Body.Close()
-
 		body, _ := io.ReadAll(r.Body)
-
 		input = body
 	}
 
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf("[%s] %s", serverName, string(input))))
+	_json, _ := json.Marshal(httpResponse{
+		Server: serverName,
+		Body:   string(input),
+	})
+
+	w.Header().Add("Content-type", "applcation/json")
+	w.Write(_json)
 }
