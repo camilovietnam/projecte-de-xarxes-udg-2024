@@ -1,6 +1,6 @@
-build-go:
+buildgo:
 	faas-cli build -f echo-go.yml
-deploy:
+swarm:
 	docker stack deploy -c docker-compose.yml projecte-de-xarxes
-undeploy:
+unswarm:
 	docker stack rm projecte-de-xarxes
