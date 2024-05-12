@@ -2,4 +2,4 @@ scrape_configs:
  - job_name: 'kong'
    scrape_interval: 5s
    static_configs:
-     - targets: ['kong:8001', 'echo-go1:8081','echo-go2:8081','echo-go3:8081',]
+     - targets: ['kong:8001', 'echo-go1:8080','echo-go2:8080','echo-go3:8080',]

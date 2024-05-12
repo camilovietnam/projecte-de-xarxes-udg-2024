@@ -46,7 +46,7 @@ services:
     environment:
       - SERVER_NAME=SERVER-2
     ports:
-      - "9092:8081"
+      - "9092:8080"
     networks:
       - kong-net
 
@@ -57,7 +57,7 @@ services:
     environment:
       - SERVER_NAME=SERVER-3
     ports:
-      - "9093:8081"
+      - "9093:8080"
     networks:
       - kong-net
 

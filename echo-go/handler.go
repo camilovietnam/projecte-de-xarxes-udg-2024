@@ -39,7 +39,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/action":
 		handleAction(w, r)
-	case "/custom_metrics":
+	case "/metrics":
 		handleMetrics(w, r)
 	default:
 		http.NotFound(w, r)
