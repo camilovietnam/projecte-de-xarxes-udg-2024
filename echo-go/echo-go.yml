@@ -7,4 +7,7 @@ functions:
     lang: golang-middleware
     handler: ./echo-go
     image: u1062049/echo-go:latest
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8081"  
 

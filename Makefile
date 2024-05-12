@@ -1,4 +1,5 @@
 buildgo:
+	gofmt -s -w echo-go/handler.go
 	faas-cli build -f echo-go/echo-go.yml
 swarm:
 	docker stack deploy -c docker-compose.yml projecte-de-xarxes

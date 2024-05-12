@@ -4,10 +4,23 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
 
 	_ "github.com/lib/pq"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+)
+
+var (
+	httpRequestsTotal = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "http_requests_total",
+			Help: "Total number of HTTP requests.",
+		},
+		[]string{"status_code"},
+	)
 )
 
 type httpResponse struct {
@@ -15,7 +28,38 @@ type httpResponse struct {
 	Message string
 }
 
+func init() {
+	// Register metrics with Prometheus
+	fmt.Println("[👉] registered metric: http_requests_total")
+	prometheus.MustRegister(httpRequestsTotal)
+}
+
 func Handle(w http.ResponseWriter, r *http.Request) {
+	// Check the URL path and route the request accordingly
+	switch r.URL.Path {
+	case "/action":
+		handleAction(w, r)
+	case "/custom_metrics":
+		handleMetrics(w, r)
+	default:
+		http.NotFound(w, r)
+	}
+}
+
+func handleMetrics(w http.ResponseWriter, r *http.Request) {
+	promhttp.Handler().ServeHTTP(w, r)
+}
+
+func handleAction(w http.ResponseWriter, r *http.Request) {
+	// Simulate occasional failures (1 out of every 20 requests)
+	if rand.Intn(20) == 0 {
+		httpRequestsTotal.WithLabelValues(fmt.Sprintf("%d", http.StatusInternalServerError)).Inc()
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	} else {
+		httpRequestsTotal.WithLabelValues(fmt.Sprintf("%d", http.StatusOK)).Inc()
+	}
+
 	var (
 		serverName = os.Getenv("SERVER_NAME")
 		lastId     int

@@ -35,7 +35,7 @@ services:
       # - SERVER_NAME=SERVER-{{.Task.Name}}
       - SERVER_NAME=SERVER-1
     ports:
-      - "9091:8081"
+      - "9091:8080"
     networks:
       - kong-net
 
