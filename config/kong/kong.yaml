@@ -10,6 +10,9 @@ upstreams:
 services:
   - name: echo-go-service
     url: http://echo-go-upstream
+    plugins:
+      - name: prometheus
+        enabled: true
 
 routes:
   - name: route-echo-go

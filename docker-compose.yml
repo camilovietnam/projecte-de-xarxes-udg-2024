@@ -6,9 +6,9 @@ networks:
     external: false
 
 services:
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
   nginx:
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
     image: nginx
     networks:
       - kong-net
@@ -27,41 +27,43 @@ services:
     networks:
       - kong-net
 
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
   echo-go1:
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
     image: u1062049/echo-go:latest
     environment:
       # - SERVER_NAME=SERVER-{{.Task.Name}}
       - SERVER_NAME=SERVER-1
-    # ports:
-    #   - "8080-8082:8080"
-    # this will replicate the service, and docker will take care of load-balancing it
-    # automatically
-    # deploy:
-    #   replicas: 3
+    ports:
+      - "9091:8081"
     networks:
       - kong-net
 
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
   echo-go2:
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
     image: u1062049/echo-go:latest
     environment:
       - SERVER_NAME=SERVER-2
+    ports:
+      - "9092:8081"
     networks:
       - kong-net
 
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
   echo-go3:
-  # # # # # # # # # # # # # #
+# # # # # # # # # # # # # #
     image: u1062049/echo-go:latest
     environment:
       - SERVER_NAME=SERVER-3
+    ports:
+      - "9093:8081"
     networks:
       - kong-net
 
+# # # # # # # # # # # # # #
   kong:
+# # # # # # # # # # # # # #
     image: kong:3.6.1
     networks:
       - kong-net
@@ -82,10 +84,22 @@ services:
       - 8001:8001
       - 8444:8444
 
+# # # # # # # # # # # # # #
+  grafana:
+# # # # # # # # # # # # # #
+    image: grafana/grafana:latest
+    networks:
+      - kong-net
+    ports:
+      - "3000:3000"
 
-#version: '3'
-#services:
-#  grafana:
-#    image: grafana/grafana:latest
-#    ports:
-#      - "3000:3000"
+# # # # # # # # # # # # # #
+  prometheus:
+# # # # # # # # # # # # # #
+    image: prom/prometheus:latest
+    networks: 
+      - kong-net
+    ports:
+      - "9090:9090"
+    volumes:
+      - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml 
